@@ -1,0 +1,50 @@
+<html>
+<textarea id="items" rows="30" cols="60">
+</textarea>
+<br>
+<input type="button" value="start" id="start" onclick="startShuffle()">
+<input type="button" value="stop" id="stop" disabled="disabled" onclick="stopShuffle()">
+<hr />
+<div id="shuffled">
+</div>
+<script type="text/javascript">
+var shuffling = false;
+
+function startShuffle() {
+  var items = getItems();
+  var stopButton = document.getElementById('stop');
+  shuffling = true;
+  var interval = setInterval(function() {
+  	if (shuffling) {
+      stopButton.disabled = false;
+      shuffle(items);
+      renderItems(items);
+    } else {
+      stopButton.disabled = true;
+      clearInterval(interval);
+    }
+  }, 100);
+}
+
+function stopShuffle() {
+  shuffling = false;
+}
+
+function renderItems(items) {
+  document.getElementById('shuffled').innerHTML = items.join('<br>');
+}
+
+function getItems() {
+  return document.getElementById('items').value.split("\n");
+}
+
+function shuffle(array) {
+  for(var i = array.length - 1; i > 0; i--){
+    var r = Math.floor(Math.random() * (i + 1));
+    var tmp = array[i];
+    array[i] = array[r];
+    array[r] = tmp;
+  }
+}
+</script>
+</html>
